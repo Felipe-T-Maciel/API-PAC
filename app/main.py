@@ -8,5 +8,4 @@ configure_all()
 
 app.include_router(router=userController)
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8080, reload=True, log_level="debug",
-                workers=1, limit_concurrency=1, limit_max_requests=1)
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8080, reload=True, log_level="debug")

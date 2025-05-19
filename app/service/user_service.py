@@ -13,8 +13,6 @@ class User_service():
     encode_pass = self.encode_pass(user.password)
     
     new_user = User(
-      name=user.name,
-      username=user.username,
       password=encode_pass,
       email = user.email
     )
@@ -22,6 +20,17 @@ class User_service():
     self.db.commit()
     self.db.refresh(new_user)
     return new_user
+  
+  def login(self, email:str, password:str):
+    user = self.get_user_by_email(email)
+    
+    if not user:
+      return None
+    
+    if not self.verify_pass(user.password, password):
+      return None
+    
+    return user
   
   def update_user(self, user_id: int, user_data: UserPostDTO):
     user = self.get_user_by_id(user_id)
@@ -50,9 +59,6 @@ class User_service():
   @staticmethod
   def verify_pass(stored_hash:str, password:str) -> bool:
     return bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8'))
-  
-  def get_user_by_username(self, username:str):
-    return self.db.query(User).filter(User.username == username).first()
   
   def get_user_by_email(self, email:str):
     return self.db.query(User).filter(User.email == email).first()
