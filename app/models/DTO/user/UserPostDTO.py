@@ -1,8 +1,9 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
+from typing import Optional, List
 
 class UserPostDTO(BaseModel):
   email : EmailStr
   password : str
   
-  friends : list = []
-  invites : list = []
+  friends: Optional[List] = Field(default_factory=list)
+  invites: Optional[List] = Field(default_factory=list)

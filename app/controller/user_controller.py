@@ -51,12 +51,12 @@ class User_Controller():
       return {"message":"Usuário não encontrado"}
     return {"message": "Deu boa", "user": user}
   
-  @userController.get("/login")
+  @userController.post("/login")
   def login(user: UserPostDTO):
     user = user_service.login(email=user.email, password=user.password)
     if user:
       token = create_access_token(data={"sub": user.email})
-      return {"user": user, "token": token}
+      return {"user": user, "access_token": token}
     if not user:
       return {"message":"Usuário não encontrado"}
     
@@ -68,5 +68,5 @@ class User_Controller():
       raise HTTPException(status_code=401, detail="Token inválido ou expirado")
       
     user = user_service.get_user_by_email(email=payload["sub"])
-    return {"message": "Deu boa", "user": user}
+    return {"user": user, "access_token": token}
   
