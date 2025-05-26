@@ -16,4 +16,4 @@ configure_all()
 
 app.include_router(router=userController)
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8092, reload=True, log_level="info")
+    uvicorn.run("app.main:app", host="10.1.11.107", port=8092, reload=True, log_level="info")
